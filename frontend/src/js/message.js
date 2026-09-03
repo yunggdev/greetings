@@ -196,7 +196,7 @@ function initMessageSender() {
                REDIRECT
             ===================================== */
 
-            window.location.href = "flower.html";
+            window.location.href = "flower";
 
 
         } catch (error) {

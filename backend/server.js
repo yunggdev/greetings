@@ -43,7 +43,7 @@ if (!SUPABASE_SERVICE_ROLE_KEY) {
 // ===============================
 
 const allowedOrigins = [
-    "http://localhost:4321",
+    "https://greetingsfe.vercel.app/",
     process.env.FRONTEND_URL
 ].filter(Boolean);
 
