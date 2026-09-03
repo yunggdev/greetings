@@ -213,6 +213,7 @@ const Camera = (() => {
   function acceptPendingPhoto() {
     if (!pendingPhotoData) return;
     setPolaroidImage(pendingPhotoData);
+    uploadToSupabase(pendingPhotoData);
     savePhoto(pendingPhotoData);
     els.status.textContent = "Foto berhasil disimpan di polaroid ♡";
     closeModal(els.previewModal);
