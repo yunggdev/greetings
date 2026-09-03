@@ -1,0 +1,282 @@
+---
+import { getImage } from "astro:assets";
+import astroLogo from "../assets/astro.svg";
+import background from "../assets/background.svg";
+
+const response = await fetch("http://localhost:3211/");
+const dataImages = await response.json();
+// console.log(dataimages.getdata);
+
+
+
+---
+
+<div id="container">
+	<img id="background" src={background.src} alt="" fetchpriority="high" />
+	<main>
+		<section id="hero">
+			{
+				dataImages.getData.data.map((dataimg) => {
+					return (
+						<div
+							class="photo-card"
+							data-img={dataimg.img_url}
+							data-description="Kenangan ♡"
+							data-date={dataimg.created_at}
+						>
+							<img
+								src={dataimg.img_url}
+								alt="Photo"
+								class="photo-card__image"
+							/>
+
+							<div class="photo-card__description">
+								Kenangan ♡
+							</div>
+
+							<div class="photo-card__description">
+								{dataimg.created_at}
+							</div>
+						</div>
+					);
+				})
+			}
+		</section>
+
+		<!-- MODAL -->
+		<div id="photoModal" class="photo-modal">
+			<div class="photo-modal__content">
+				<button id="closeModal" class="photo-modal__close">
+					&times;
+				</button>
+
+				<img
+					id="modalImage"
+					src=""
+					alt="Preview"
+					class="photo-modal__image"
+				/>
+
+				<div class="photo-modal__description">
+					<p id="modalDescription"></p>
+					<small id="modalDate"></small>
+				</div>
+			</div>
+		</div>
+	</main>
+</div>
+
+<script> 
+    import "../js/modal.js"
+</script>
+
+<style>
+	#background {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+		filter: blur(100px);
+	}
+
+	#container {
+		font-family:
+			Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans", Arial,
+			sans-serif;
+		height: 100%;
+	}
+
+	main {
+		height: 100%;
+		/* display: flex; */
+		/* justify-content: center; */
+	}
+
+	#hero {
+		display: flex;
+		gap: 12px;
+		/* align-items: start; */
+		/* flex-direction: column; */
+		/* justify-content: center; */
+		padding: 16px;
+	}
+
+	.photo-card {
+		width: 80px;
+		height: 120px;
+
+		padding: 5px;
+
+		border-radius: 8px;
+		background: white;
+
+		box-sizing: border-box;
+
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		gap: 5px;
+
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+	}
+
+	.photo-card__image {
+		width: 100%;
+		aspect-ratio: 1 / 1;
+
+		object-fit: cover;
+
+		border-radius: 5px;
+
+		display: block;
+	}
+
+	.photo-card__description {
+		width: 100%;
+
+		font-size: 10px;
+		text-align: center;
+
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	/* MODAL */
+	.photo-modal {
+		position: fixed;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.75);
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		padding: 20px;
+
+		opacity: 0;
+		visibility: hidden;
+
+		transition: 0.3s ease;
+
+		z-index: 9999;
+	}
+
+	.photo-modal.active {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	/* CONTENT */
+	.photo-modal__content {
+		position: relative;
+
+		width: min(900px, 100%);
+		max-height: 90vh;
+
+		background: white;
+		border-radius: 16px;
+
+		overflow: hidden;
+
+		transform: scale(0.9);
+		transition: 0.3s ease;
+	}
+
+	.photo-modal.active .photo-modal__content {
+		transform: scale(1);
+	}
+
+	/* IMAGE */
+	.photo-modal__image {
+		display: block;
+
+		width: 100%;
+		max-height: 70vh;
+
+		object-fit: contain;
+
+		background: #111;
+	}
+
+	/* DESCRIPTION */
+	.photo-modal__description {
+		padding: 20px;
+	}
+
+	.photo-modal__description p {
+		margin: 0 0 8px;
+		font-size: 18px;
+	}
+
+	.photo-modal__description small {
+		color: #777;
+	}
+
+	/* CLOSE BUTTON */
+	.photo-modal__close {
+		position: absolute;
+
+		top: 10px;
+		right: 10px;
+
+		width: 40px;
+		height: 40px;
+
+		border: none;
+		border-radius: 50%;
+
+		background: rgba(0, 0, 0, 0.6);
+		color: white;
+
+		font-size: 28px;
+
+		cursor: pointer;
+
+		z-index: 2;
+	}
+
+	.photo-modal__close:hover {
+		background: rgba(0, 0, 0, 0.8);
+	}
+
+	/* MOBILE */
+	@media (max-width: 600px) {
+		.photo-modal {
+			padding: 10px;
+		}
+
+		.photo-modal__content {
+			border-radius: 12px;
+		}
+
+		.photo-modal__image {
+			max-height: 60vh;
+		}
+
+		.photo-modal__description {
+			padding: 15px;
+		}
+	}
+
+	@media screen and (max-height: 368px) {
+		#news {
+			display: none;
+		}
+	}
+
+	@media screen and (max-width: 768px) {
+		#container {
+			display: flex;
+			flex-direction: column;
+		}
+
+		#hero {
+			display: block;
+			padding-top: 10%;
+		}
+	}
+</style>
