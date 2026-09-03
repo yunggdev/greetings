@@ -157,7 +157,7 @@ const Camera = (() => {
       );
 
       const result = await fetch(
-        "http://localhost:3211/upload",
+        "https://greetings-one-chi.vercel.app/upload",
         {
           method: "POST",
           body: formData
